@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Nurussalam</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="branding-top">
+            <img src="images.jpeg" alt="Logo" />
+            <h1>Admin Nurussalam</h1>
+        </div>
+        <ul>
+            <li><a href="#" onclick="showPage('dashboard')">Dashboard</a></li>
+            <li><a href="#" onclick="showPage('jadwal')">Jadwal Ngaji</a></li>
+            <li><a href="#" onclick="showPage('santri')">Data Santri</a></li>
+            <li><a href="#" onclick="showPage('absensi')">Absensi</a></li>
+            <li><a href="#" onclick="showPage('pengumuman')">Pengumuman</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <div id="dashboard" class="page" style="display:none">
+            <h1>Dashboard Admin</h1>
+            <section class="stats">
+                <div class="card">
+                    <h3 id="totalSantri">0</h3>
+                    <p>Total Santri</p>
+                </div>
+                <div class="card">
+                    <h3 id="kehadiran">0%</h3>
+                    <p>Kehadiran Hari Ini</p>
+                </div>
+                <div class="card">
+                    <h3 id="pengumuman">0</h3>
+                    <p>Pengumuman Aktif</p>
+                </div>
+            </section>
+        </div>
+        <div id="jadwal" class="page" style="display:none">
+            <h2>Manajemen Jadwal Ngaji</h2>
+            <form class="form-jadwal" id="jadwalForm">
+                <label>Hari:</label>
+                <select id="hari" required>
+                    <option value="">Pilih Hari</option>
+                    <option value="Senin">Senin</option>
+                    <option value="Selasa">Selasa</option>
+                    <option value="Rabu">Rabu</option>
+                    <option value="Kamis">Kamis</option>
+                    <option value="Jumat">Jumat</option>
+                    <option value="Sabtu">Sabtu</option>
+                    <option value="Minggu">Minggu</option>
+                </select>
+                <label>Jam:</label>
+                <input type="time" id="waktu" required />
+                <label>Kegiatan:</label>
+                <input
+                    type="text"
+                    id="kegiatan"
+                    placeholder="Contoh: Ngaji Fiqih"
+                    required
+                />
+                <button type="submit">Tambah Jadwal</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Kegiatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="jadwalTableBody">
+                    <!-- Data dari API Laravel akan dimuat di sini -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="santri" class="page" style="display:none">
+            <h2>Manajemen Data Santri</h2>
+            <form id="santriForm">
+                <input type="text" id="nis" placeholder="NIS" required />
+                <input type="text" id="nama" placeholder="Nama" required />
+                <input type="text" id="kelas" placeholder="Kelas (Contoh: Madin 2)" required />
+                <input type="text" id="alamat" placeholder="Alamat" />
+                <input type="text" id="password" placeholder="Password santri" />
+                <button type="submit">Simpan</button>
+            </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NIS</th>
+                        <th>Nama</th>
+                        <th>Kelas</th>
+                        <th>Alamat</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="santriTableBody">
+                    <!-- Data santri akan dimuat di sini -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="absensi" class="page" style="display:none">
+            <h2>Input Absensi Hari Ini</h2>
+            <div>
+                <label for="jadwal">Pilih Jadwal:</label>
+                <select id="jadwal">
+                    <!-- Data jadwal hari ini akan diisi lewat JS -->
+                </select>
+            </div>
+            <form id="absensiForm">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>NIS</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="absensiTableBody">
+                        <!-- Daftar santri dengan pilihan status akan dimuat lewat JS -->
+                    </tbody>
+                </table>
+                <button type="submit">Simpan Absensi</button>
+            </form>
+            <h3>Rekap Absensi Hari Ini</h3>
+            <div id="rekapContainer">
+                <!-- Rekap per kegiatan akan ditampilkan di sini -->
+            </div>
+        </div>
+
+
+        <div id="pengumuman" class="page" style="display:none">
+            <h2>Manajemen Pengumuman</h2>
+            <form class="form-pengumuman" id="pengumumanForm">
+                <input
+                    type="text"
+                    id="judul"
+                    placeholder="Judul Pengumuman"
+                    required
+                />
+                <textarea
+                    id="isi"
+                    placeholder="Isi pengumuman..."
+                    rows="4"
+                    required
+                ></textarea>
+                <button type="submit">Tambah Pengumuman</button>
+            </form>
+            <div id="daftarPengumuman"></div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Highlight menu aktif
+        function setActiveMenu(pageId) {
+            document.querySelectorAll('.sidebar ul li a').forEach(a => a.classList.remove('active'));
+            const menu = {
+                dashboard: 0,
+                jadwal: 1,
+                santri: 2,
+                absensi: 3,
+                pengumuman: 4
+            };
+            document.querySelectorAll('.sidebar ul li a')[menu[pageId]].classList.add('active');
+        }
+        // Modifikasi showPage agar memanggil setActiveMenu
+        const oldShowPage = window.showPage;
+        window.showPage = function(pageId) {
+            oldShowPage(pageId);
+            setActiveMenu(pageId);
+        };
+    </script>
+</body>
+</html>

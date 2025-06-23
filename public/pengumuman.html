@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Pengumuman - Admin Nurussalam</title>
+        <link rel="stylesheet" href="style.css" />
+        <style>
+            .content h2 {
+                color: #2e7d32;
+                margin-bottom: 20px;
+            }
+            .form-pengumuman input,
+            .form-pengumuman textarea {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 14px;
+            }
+            .form-pengumuman button {
+                background-color: #2e7d32;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+            .pengumuman-item {
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                padding: 10px;
+                margin-bottom: 10px;
+                background-color: #f9f9f9;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <div class="brand">
+                <img src="images.jpeg" alt="Logo Pondok" />
+                <h1>Admin Nurussalam</h1>
+            </div>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="jadwal.html">Jadwal Ngaji</a></li>
+                <li><a href="santri.html">Data Santri</a></li>
+                <li><a href="absensi.html">Absensi</a></li>
+                <li><a href="pengumuman.html" class="active">Pengumuman</a></li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <h2>Manajemen Pengumuman</h2>
+            <form class="form-pengumuman" id="pengumumanForm">
+                <input
+                    type="text"
+                    id="judul"
+                    placeholder="Judul Pengumuman"
+                    required
+                />
+                <textarea
+                    id="isi"
+                    placeholder="Isi pengumuman..."
+                    rows="4"
+                    required
+                ></textarea>
+                <button type="submit">Tambah Pengumuman</button>
+            </form>
+
+            <div id="daftarPengumuman"></div>
+        </main>
+
+        <script>
+            document
+                .getElementById("pengumumanForm")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
+                    try {
+                        const res = await fetch(
+                            "http://127.0.0.1:8000/api/pengumuman",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify({
+                                    judul: document.getElementById("judul")
+                                        .value,
+                                    isi: document.getElementById("isi").value,
+                                }),
+                            }
+                        );
+
+                        if (!res.ok) {
+                            const err = await res.text();
+                            console.error("Gagal:", err);
+                            return;
+                        }
+
+                        document.getElementById("pengumumanForm").reset();
+                        fetchPengumuman();
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
+                });
+
+            async function fetchPengumuman() {
+                try {
+                    const res = await fetch(
+                        "http://127.0.0.1:8000/api/pengumuman"
+                    );
+                    const data = await res.json();
+
+                    const container =
+                        document.getElementById("daftarPengumuman");
+                    container.innerHTML = "";
+                    data.forEach((item) => {
+                        container.innerHTML += `
+              <div class="pengumuman-item">
+                <strong>${item.judul}</strong>
+                <p>${item.isi}</p>
+                <button onclick="hapusPengumuman(${item.id})">Hapus</button>
+              </div>
+            `;
+                    });
+                } catch (error) {
+                    console.error("Gagal ambil data:", error);
+                }
+            }
+
+            async function hapusPengumuman(id) {
+                try {
+                    await fetch(`http://127.0.0.1:8000/api/pengumuman/${id}`, {
+                        method: "DELETE",
+                    });
+                    fetchPengumuman();
+                } catch (error) {
+                    console.error("Gagal hapus:", error);
+                }
+            }
+
+            window.onload = fetchPengumuman;
+        </script>
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Data Santri - Admin Nurussalam</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <aside class="sidebar">
+            <div class="branding-top">
+                <img src="images.jpeg" alt="Logo" />
+                <h1>Admin Nurussalam</h1>
+            </div>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="jadwal.html">Jadwal Ngaji</a></li>
+                <li><a href="santri.html">Data Santri</a></li>
+                <li>
+                    <a href="absensi.html"><b>Absensi</b></a>
+                </li>
+                <li><a href="pengumuman.html">Pengumuman</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h2>Manajemen Data Santri</h2>
+
+            <form id="santriForm">
+                <input type="text" id="nis" placeholder="NIS" required />
+                <input type="text" id="nama" placeholder="Nama" required />
+                <input
+                    type="text"
+                    id="kelas"
+                    placeholder="Kelas (Contoh: Madin 2)"
+                    required
+                />
+                <input type="text" id="alamat" placeholder="Alamat" />
+                <input
+                    type="text"
+                    id="password"
+                    placeholder="Password santri"
+                />
+
+                <button type="submit">Simpan</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>NIS</th>
+                        <th>Nama</th>
+                        <th>Kelas</th>
+                        <th>Alamat</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="santriTableBody">
+                    <!-- Data santri akan dimuat di sini -->
+                </tbody>
+            </table>
+        </main>
+
+        <script src="santri.js"></script>
+    </body>
+</html>
