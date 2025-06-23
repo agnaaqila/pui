@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Absensi Santri - Admin Nurussalam</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <aside class="sidebar">
+            <div class="branding-top">
+                <img src="images.jpeg" alt="Logo" />
+                <h1>Admin Nurussalam</h1>
+            </div>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="jadwal.html">Jadwal Ngaji</a></li>
+                <li><a href="santri.html">Data Santri</a></li>
+                <li>
+                    <a href="absensi.html"><b>Absensi</b></a>
+                </li>
+                <li><a href="pengumuman.html">Pengumuman</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h2>Input Absensi Hari Ini</h2>
+
+            <div>
+                <label for="jadwal">Pilih Jadwal:</label>
+                <select id="jadwal">
+                    <!-- Data jadwal hari ini akan diisi lewat JS -->
+                </select>
+            </div>
+
+            <form id="absensiForm">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>NIS</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="absensiTableBody">
+                        <!-- Daftar santri dengan pilihan status akan dimuat lewat JS -->
+                    </tbody>
+                </table>
+                <button type="submit">Simpan Absensi</button>
+            </form>
+
+            <h3>Rekap Absensi Hari Ini</h3>
+            <div id="rekapContainer">
+                <!-- Rekap per kegiatan akan ditampilkan di sini -->
+            </div>
+        </main>
+
+        <script src="absensi.js"></script>
+    </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard - Admin Nurussalam</title>
+        <link rel="stylesheet" href="style.css" />
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                display: flex;
+            }
+            .sidebar {
+                width: 250px;
+                background-color: #1b5e20;
+                color: #fff;
+                min-height: 100vh;
+                padding-top: 20px;
+                position: fixed;
+            }
+            .sidebar .logo {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            .sidebar .logo img {
+                width: 40px;
+                margin-right: 10px;
+            }
+            .sidebar h2 {
+                margin: 0;
+                font-size: 20px;
+                font-weight: bold;
+            }
+            .sidebar ul {
+                list-style: none;
+                padding: 0;
+            }
+            .sidebar ul li {
+                padding: 15px 20px;
+            }
+            .sidebar ul li a {
+                color: #fff;
+                text-decoration: none;
+                display: block;
+            }
+            .sidebar ul li a:hover,
+            .sidebar ul li a.active {
+                background-color: #2e7d32;
+                border-radius: 4px;
+            }
+            .content {
+                margin-left: 250px;
+                padding: 30px;
+                background-color: #f5f5f5;
+                min-height: 100vh;
+                width: 100%;
+            }
+            .stats {
+                display: flex;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #ddd;
+                border-left: 5px solid #2e7d32;
+                padding: 20px;
+                width: 250px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .card h3 {
+                margin: 0;
+                font-size: 24px;
+                color: #2e7d32;
+            }
+            .card p {
+                margin: 5px 0 0;
+                color: #555;
+            }
+        </style>
+    </head>
+    <body>
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="images.jpeg" alt="Logo" />
+                <h2>Admin Nurussalam</h2>
+            </div>
+            <ul>
+                <li><a href="index.html" class="active">Dashboard</a></li>
+                <li><a href="jadwal.html">Jadwal Ngaji</a></li>
+                <li><a href="santri.html">Data Santri</a></li>
+                <li><a href="absensi.html">Absensi</a></li>
+                <li><a href="pengumuman.html">Pengumuman</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h1>Dashboard Admin</h1>
+            <section class="stats">
+                <div class="card">
+                    <h3 id="totalSantri">0</h3>
+                    <p>Total Santri</p>
+                </div>
+                <div class="card">
+                    <h3 id="kehadiran">0%</h3>
+                    <p>Kehadiran Hari Ini</p>
+                </div>
+                <div class="card">
+                    <h3 id="pengumuman">0</h3>
+                    <p>Pengumuman Aktif</p>
+                </div>
+            </section>
+        </main>
+
+        <script>
+            async function loadSummary() {
+                try {
+                    const response = await fetch(
+                        "http://127.0.0.1:8000/api/dashboard/summary"
+                    );
+                    const data = await response.json();
+
+                    document.getElementById("totalSantri").innerText =
+                        data.total_santri;
+                    document.getElementById("kehadiran").innerText =
+                        data.kehadiran + "%";
+                    document.getElementById("pengumuman").innerText =
+                        data.pengumuman;
+                } catch (error) {
+                    console.error("Gagal mengambil data dashboard:", error);
+                }
+            }
+
+            loadSummary();
+        </script>
+    </body>
+</html>

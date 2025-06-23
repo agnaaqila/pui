@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Jadwal Ngaji - Admin Nurussalam</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <aside class="sidebar">
+            <div class="branding-top">
+                <img src="images.jpeg" alt="Logo" />
+                <h1>Admin Nurussalam</h1>
+            </div>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="jadwal.html">Jadwal Ngaji</a></li>
+                <li><a href="santri.html">Data Santri</a></li>
+                <li>
+                    <a href="absensi.html"><b>Absensi</b></a>
+                </li>
+                <li><a href="pengumuman.html">Pengumuman</a></li>
+            </ul>
+        </aside>
+
+        <main class="content">
+            <h2>Manajemen Jadwal Ngaji</h2>
+
+            <form class="form-jadwal" id="jadwalForm">
+                <label>Hari:</label>
+                <input
+                    type="text"
+                    id="hari"
+                    placeholder="Contoh: Senin"
+                    required
+                />
+                <label>Jam:</label>
+                <input type="time" id="waktu" required />
+                <label>Kegiatan:</label>
+                <input
+                    type="text"
+                    id="kegiatan"
+                    placeholder="Contoh: Ngaji Fiqih"
+                    required
+                />
+                <button type="submit">Tambah Jadwal</button>
+            </form>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Hari</th>
+                        <th>Jam</th>
+                        <th>Kegiatan</th>
+                        <th>Aksi</th>
+                        <!-- kolom baru -->
+                    </tr>
+                </thead>
+
+                <tbody id="jadwalTableBody">
+                    <!-- Data dari API Laravel akan dimuat di sini -->
+                </tbody>
+            </table>
+        </main>
+
+        <script src="script.js"></script>
+    </body>
+</html>
